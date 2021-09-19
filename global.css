@@ -1,0 +1,215 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+html {
+  --magenta: #fe61db;
+  --purple: #b437e0;
+  --blue: #56b2e5;
+  --green: #5ef937;
+  --yellow: #f3f643;
+  --orange: #f66e22;
+  --red: #fe3f3f;
+
+  --ice: #e0f6f5;
+  --grey: #adadad;
+  --reder: #ff0000;
+  --black: #000000;
+  --dark-blue: #003069;
+  --background: #fbfcff;
+  font-size: 62.5%;
+}
+
+body {
+  display: flex;
+  height: 100vh;
+  background: var(--background);
+  align-items: center;
+}
+
+.content {
+  width: 100%;
+  margin: 0 auto;
+}
+
+#index main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#table,
+.detail {
+  width: 150rem;
+  height: 65rem;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#table {
+  background: var(--ice);
+  border-radius: 160px;
+  border: 0.3rem solid var(--black);
+  outline: none;
+}
+
+/* CIRCLES */
+
+#table .detail .main-circle,
+#table .detail .red-circles .circle {
+  width: 20rem;
+  height: 20rem;
+}
+
+#table .detail .main-circle {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0.3rem solid var(--dark-blue);
+  border-radius: 100%;
+}
+
+#table .detail .main-circle .inner-circle {
+  width: 3.75rem;
+  height: 3.75rem;
+  background: var(--black);
+  border-radius: 100%;
+  position: absolute;
+}
+
+/* RED CIRCLE LINES */
+
+#table .detail .red-circles {
+  width: 150rem;
+  height: 65rem;
+
+  justify-content: center;
+  align-items: center;
+
+  display: grid;
+  grid-template-columns: 51% 13%;
+  grid-template-rows: 50% 50%;
+}
+
+#table .detail .red-circles .circle {
+  border: 0.3rem solid var(--reder);
+  border-radius: 100%;
+
+  justify-content: center;
+  align-items: center;
+
+  display: grid;
+  grid-template-columns: 30% 16.5%;
+  grid-template-rows: 67% 0%;
+}
+
+#table .detail .red-circles .circle div {
+  width: 3rem;
+  height: 3rem;
+  border: 0.3rem solid var(--reder);
+}
+
+#table .detail .red-circles .circle div:nth-child(1) {
+  border-top: transparent;
+  border-left: transparent;
+}
+
+#table .detail .red-circles .circle div:nth-child(2) {
+  border-top: transparent;
+  border-right: transparent;
+}
+
+#table .detail .red-circles .circle div:nth-child(3) {
+  border-bottom: transparent;
+  border-left: transparent;
+}
+
+#table .detail .red-circles .circle div:nth-child(4) {
+  border-bottom: transparent;
+  border-right: transparent;
+}
+
+/* LINES */
+
+#table .detail .line {
+  width: 42rem;
+  height: 65rem;
+  border: 0.3rem solid var(--dark-blue);
+  border-top: transparent;
+  border-bottom: transparent;
+
+  justify-content: space-between;
+  align-items: center;
+
+  position: absolute;
+  display: flex;
+}
+
+/* RED DOTS */
+
+#table .detail .points {
+  width: 42rem;
+  height: 65rem;
+
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+
+  display: grid;
+  grid-template-columns: 65% 4.5%;
+}
+
+#table .detail .points div {
+  width: 1rem;
+  height: 1rem;
+
+  justify-content: center;
+  align-items: center;
+
+  background: var(--reder);
+  border-radius: 100%;
+}
+
+/* GOALS */
+
+#table .detail .goals {
+  width: 150rem;
+  height: 65rem;
+
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+
+  display: grid;
+  grid-template-columns: 80% 2.6%;
+}
+
+#table .detail .goals div {
+  width: 3rem;
+  height: 28rem;
+  border: 0.4rem solid var(--black);
+
+  justify-content: center;
+  align-items: center;
+  display: flex;
+
+  justify-content: space-between;
+}
+
+#table .detail .goals div:nth-child(1) {
+  border-right: transparent;
+}
+
+#table .detail .goals div:nth-child(2) {
+  border-left: transparent;
+}
