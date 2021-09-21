@@ -10,17 +10,21 @@ html {
   --magenta: #fe61db;
   --purple: #b437e0;
   --blue: #56b2e5;
-  --green: #5ef937;
+  --lime: #5ef937;
   --yellow: #f3f643;
   --orange: #f66e22;
   --red: #fe3f3f;
 
   --ice: #e0f6f5;
   --grey: #adadad;
+  --grey-grey: #686262;
+  --another-grey: #dbd7d7;
   --reder: #ff0000;
   --black: #000000;
   --dark-blue: #003069;
   --background: #fbfcff;
+  --green: #8dc95e;
+  --white: #ffffff;
   font-size: 62.5%;
 }
 
@@ -40,9 +44,52 @@ body {
   width: 100%;
   height: 100vh;
   display: grid;
-  align-items: center;
   justify-content: center;
   grid-template-rows: 25rem 67%;
+}
+
+/* BUTTONS */
+
+input,
+button,
+.button {
+  border-radius: 0.8rem;
+  height: 5rem;
+}
+
+button,
+.button {
+  font-family: "Poppins";
+  font-weight: 500;
+  line-height: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--blue);
+  color: var(--white);
+
+  transition: filter 0.2s;
+
+  cursor: pointer;
+}
+
+button:hover,
+.button:hover {
+  filter: brightness(1.1);
+}
+
+button > img,
+.button > img {
+  margin-right: 1rem;
+  width: 2rem;
+}
+
+button.outlined,
+.button.outlined {
+  background-color: var(--white);
+  color: var(--blue);
+  border: 0.2rem solid var(--blue);
 }
 
 /* SCOREBOARD */
@@ -82,7 +129,6 @@ body {
 .detail {
   width: 150rem;
   height: 65rem;
-  /* position: fixed; */
   display: flex;
   align-items: center;
   justify-content: center;
