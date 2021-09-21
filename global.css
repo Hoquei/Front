@@ -25,7 +25,7 @@ html {
 }
 
 body {
-  display: flex;
+  display: block;
   height: 100vh;
   background: var(--background);
   align-items: center;
@@ -39,7 +39,7 @@ body {
 #index main {
   width: 100%;
   height: 100vh;
-  display: grid;
+  display: block;
   align-items: center;
   justify-content: center;
   grid-template-rows: 25rem 67%;
@@ -52,7 +52,7 @@ body {
   grid-row: 1;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
+  margin-top: auto;
 }
 
 .player {
@@ -90,11 +90,14 @@ body {
 }
 
 #table {
+  align-items: center;
+
   background: var(--ice);
   border-radius: 160px;
   border: 0.3rem solid var(--black);
   outline: none;
   grid-row: 2;
+  display: block;
 }
 
 /* CIRCLES */
