@@ -29,7 +29,7 @@ html {
 }
 
 body {
-  display: flex;
+  display: block;
   height: 100vh;
   background: var(--background);
   align-items: center;
@@ -99,7 +99,7 @@ button.outlined,
   grid-row: 1;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
+  margin-top: auto;
 }
 
 .player {
@@ -136,11 +136,14 @@ button.outlined,
 }
 
 #table {
+  align-items: center;
+
   background: var(--ice);
   border-radius: 160px;
   border: 0.3rem solid var(--black);
   outline: none;
   grid-row: 2;
+  display: block;
 }
 
 /* CIRCLES */
