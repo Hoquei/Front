@@ -14,7 +14,7 @@ io.on('connection', (socket) => {
         console.log('a user disconnected');
     });
 });
-
+app.use(express.static(__dirname + '/public'));
 http.listen(8080, () => {
     console.log('Listen on port 8080!')
 })
