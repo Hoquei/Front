@@ -11,10 +11,17 @@ export default function Modal(){
     }
 
     function getNickname() {
+         
         var player1 = document.getElementById("Nname").value;
-        console.log(player1);
-        socket.emit('playerJoin', player1);
-        close();
+
+        if(!(player1 === "")){
+            console.log(player1);
+            socket.emit('playerJoin', player1);
+            close();
+        }
+        else{
+            document.getElementById("Nname").placeholder = "É necessário digitar um nome!";
+        }
     }
 
     function close(){
