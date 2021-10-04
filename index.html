@@ -30,11 +30,11 @@
         <main>
             <div class="score-board">
                 <div class="player">
-                    <h1>Player 1</h2>
+                    <h1 id=player1></h2>
                     <div class ="score"> 0 </div>
                 </div>
                 <div class="player">
-                    <h1>Player 2</h1>
+                    <h1 id=player2></h2>
                     <div class ="score"> 0 </div>
                 </div>
             </div>
@@ -89,14 +89,9 @@
     <div class="modal-wrapper">
         <div class="modal">
             <h2>Bem vindo!</h2>
-            <p>Digite seu Nickname</p>
-            <form action="#" >
-                <input type="text" placeholder="">
-
-                <button class ="button">Jogar</button>
-                <p>ou</p>
-                <button class="button">Entrar como espectador</button>
-            </form>
+            <p>Esperando players</p>
+            <p>Para jogar conecte no /controller</p>
+            <p id='playerWaiting'></p>
         </div>
     </div>
 </body>

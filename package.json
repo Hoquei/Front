@@ -18,6 +18,7 @@
   "homepage": "https://github.com/Hoquei/Front#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "socket.io": "^3.1.2"
+    "socket.io": "^3.1.2",
+    "socket.io-client": "^4.2.0"
   }
 }
