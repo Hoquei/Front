@@ -11,7 +11,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="/styles/global.css">
     <link rel="stylesheet" href="/styles/modal.css">
-
+    <link rel="stylesheet" href="/styles/controller.css">
     <!-- FONTS -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:wght@500;700&display=swap"
@@ -28,16 +28,30 @@
         var socket = io();
     </script>
 
-    <!-- MODAL -->
-    <div class="modal-wrapper">
-        <div class="modal">
-            <h2>Bem vindo!</h2>
-            <p>Digite seu Nickname</p>
-            <form action="#" >
-                <input type="text" placeholder="Nickname" id="Nname">
-                <button class ="button" >Jogar</button>
-                <p>ou</p>
-                <button class="button">Entrar como espectador</button>
-            </form>
+    <style>
+        #zone_joystick{
+            height: 100vh;
+
+        }
+    </style>
+    </head>
+    <body>
+        <p class="name" id='PlayerName'></p>
+        <div id="zone_joystick"></div>
+        <script type="text/javascript" src="./nipplejs.js"></script>
+        
+
+        <!-- MODAL -->
+        <div class="modal-wrapper">
+            <div class="modal">
+                <h2>Bem vindo!</h2>
+                <p>Digite seu Nickname</p>
+                <form action="#" >
+                    <input type="text" placeholder="Nickname" id="Nname">
+                    <button class ="button" >Jogar</button>
+                    <p>ou</p>
+                    <button class="button">Entrar como espectador</button>
+                </form>
+            </div>
         </div>
 </body>

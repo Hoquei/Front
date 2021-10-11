@@ -23,6 +23,9 @@ export default function Modal(){
             document.getElementById("Nname").placeholder = "É necessário digitar um nome!";
         }
     }
+    function nome () {
+        return document.getElementById("Nname").value;
+    }
 
     function close(){
         modalWrapper.classList.remove("active")
@@ -30,6 +33,7 @@ export default function Modal(){
 
     return {
         close,
+        nome,
         open
     }
 }
