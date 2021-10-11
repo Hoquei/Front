@@ -92,11 +92,35 @@ button.outlined,
   border: 0.2rem solid var(--blue);
 }
 
-/* SCOREBOARD */
+.content-wrapper {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+}
 
-.score-board {
+/* TIMER */
+.content-wrapper .timer {
   text-align: center;
   grid-row: 1;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+  height: 5rem;
+}
+
+.content-wrapper .timer #timer-display {
+  font-family: "Poppins";
+  font-weight: 500;
+  line-height: 1;
+  font-size: 30px;
+}
+
+/* SCOREBOARD */
+
+.content-wrapper .score-board {
+  text-align: center;
+  grid-row: 2;
   justify-content: center;
   align-items: center;
   margin-top: auto;
@@ -229,6 +253,7 @@ button.outlined,
 #table .detail .line {
   width: 42rem;
   height: 65rem;
+  top: 25rem;
   border: 0.3rem solid var(--dark-blue);
   border-top: transparent;
   border-bottom: transparent;

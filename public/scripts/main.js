@@ -24,3 +24,26 @@ socket.on("player_join", (arg) => {
     }
     
 })
+
+window.onload = function() {timer()};
+
+function timer() {
+    var minutes = 1
+    var seconds = 0
+    var timerdisplay = document.getElementById('timer-display')
+    var timer = setInterval(() => {
+        timerdisplay.innerHTML = (seconds >= 10) ? minutes + ":" + seconds : minutes + ":0" + seconds
+        if(minutes < 1){
+            document.getElementById('timer-display').style.color = "red"
+        }
+        if (seconds <= 0 && minutes == 0) {
+            clearInterval(timer);
+        }
+        if(seconds == 0) {
+            seconds = 60
+            minutes -=1
+        }
+        seconds--;
+    }, 1000);
+}
+
