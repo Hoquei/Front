@@ -6,26 +6,41 @@ const socket = io();
 
 let Nameplayer1 = 'player 1';
 let Nameplayer2 = 'player 2';
-let countpPlayers = 0;
 
-socket.on("player_join", (arg) => {
+textModal('Bem vindo!', 'Esperando players', 'Para jogar conecte no /controller');
+
+socket.on("player_join", (nickName) => {
     if(Nameplayer1 === 'player 1') {
-        Nameplayer1 = arg;
+        Nameplayer1 = nickName;
         document.getElementById("player1").innerHTML = Nameplayer1; 
         document.getElementById("playerWaiting").innerHTML = 'Player 1 já conectou'; 
-        countpPlayers++;
     } else if(Nameplayer2 === 'player 2'){
-        Nameplayer2 = arg;
+        Nameplayer2 = nickName;
         document.getElementById("player2").innerHTML = Nameplayer2;
-        countpPlayers++;
-        modal.close();
+        textModal('Prepare-se')
+        setTimeout(() => {
+            modal.close()
+            timer();
+        }, 1000);
     } else {
         console.log('limite de players atingido');
-    }
-    
+    } 
 })
 
-window.onload = function() {timer()};
+socket.on('player1move', (direction) => {
+    console.log(direction);
+})
+
+
+socket.on('player2move', (direction) => {
+    console.log(direction);
+})
+function textModal(bemVindo, waiting, play, player1) {
+    bemVindo ? document.getElementById("BemVindo").innerHTML = bemVindo : document.getElementById("BemVindo").innerHTML = '';
+    waiting ? document.getElementById("waiting").innerHTML = waiting : document.getElementById("waiting").innerHTML = ''; 
+    play ? document.getElementById("play").innerHTML = play : document.getElementById("play").innerHTML = ''; 
+    player1 ? document.getElementById("playerWaiting").innerHTML = player1 : document.getElementById("playerWaiting").innerHTML = ''; 
+}
 
 function timer() {
     var minutes = 1
@@ -37,6 +52,9 @@ function timer() {
             document.getElementById('timer-display').style.color = "red"
         }
         if (seconds <= 0 && minutes == 0) {
+            console.log('terminou o timer');
+            modal.open();
+            textModal('FIM!');
             clearInterval(timer);
         }
         if(seconds == 0) {

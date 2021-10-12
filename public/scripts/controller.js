@@ -19,5 +19,7 @@ manager.on('move', function(evt, nipple) {
     if(nipple.direction){
         console.log(nipple.direction.x);
         console.log(nipple.direction.y);
+        socket.emit('move', {direction: nipple.direction,
+                             player: playerName});
     }
 })
