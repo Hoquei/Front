@@ -20,12 +20,12 @@ socket.on("player_join", (nickName) => {
         document.getElementById("player2").innerHTML = Nameplayer2;
         setInterval(() => {
             if(counter <= 0) {
-                modal.close()
-                timer();
                 clearInterval(timer);
             }
             textModal('Prepare-se',counter--)
         }, 1000);
+        modal.close()
+        timer();
     } else {
         console.log('limite de players atingido');
     } 
