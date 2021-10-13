@@ -6,6 +6,7 @@ const socket = io();
 
 let Nameplayer1 = 'player 1';
 let Nameplayer2 = 'player 2';
+var counter = 3
 
 textModal('Bem vindo!', 'Esperando players', 'Para jogar conecte no /controller');
 
@@ -17,10 +18,13 @@ socket.on("player_join", (nickName) => {
     } else if(Nameplayer2 === 'player 2'){
         Nameplayer2 = nickName;
         document.getElementById("player2").innerHTML = Nameplayer2;
-        textModal('Prepare-se')
-        setTimeout(() => {
-            modal.close()
-            timer();
+        setInterval(() => {
+            if(counter <= 0) {
+                modal.close()
+                timer();
+                clearInterval(timer);
+            }
+            textModal('Prepare-se',counter--)
         }, 1000);
     } else {
         console.log('limite de players atingido');
@@ -35,6 +39,7 @@ socket.on('player1move', (direction) => {
 socket.on('player2move', (direction) => {
     console.log(direction);
 })
+
 function textModal(bemVindo, waiting, play, player1) {
     bemVindo ? document.getElementById("BemVindo").innerHTML = bemVindo : document.getElementById("BemVindo").innerHTML = '';
     waiting ? document.getElementById("waiting").innerHTML = waiting : document.getElementById("waiting").innerHTML = ''; 
@@ -43,7 +48,7 @@ function textModal(bemVindo, waiting, play, player1) {
 }
 
 function timer() {
-    var minutes = 1
+    var minutes = 3
     var seconds = 0
     var timerdisplay = document.getElementById('timer-display')
     var timer = setInterval(() => {
