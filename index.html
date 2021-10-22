@@ -48,6 +48,8 @@
 
             <canvas width="600" height="400"></canvas>
             <script>
+                var widght = document.querySelector("canvas").width;
+                var height = document.querySelector("canvas").height;
                 var UP = 38, DOWN = 40, LEFT = 37, RIGHT = 39;
                 var moveEsquerda = false, moveDireita = false, moveCima = false, moveBaixo = false;
                 var cnv = document.querySelector("canvas");
@@ -56,7 +58,8 @@
                     x: 10,
                     y: 10
                 };
-
+                console.log(widght);
+                
                 update();
 
                 window.addEventListener("keydown", keydownHandler);
@@ -68,7 +71,8 @@
                     if(key === RIGHT && key !== LEFT) moveDireita = true;
                     if(key === UP && key !== DOWN) moveCima = true;
                     if(key === DOWN && key !== UP) moveBaixo = true;
-                    
+                    console.log(p1.x);
+                    console.log(p1.y);
                     render();
                 }
                 
@@ -83,10 +87,10 @@
                 }
 
                 function move(){
-                    if(moveEsquerda) p1.x--;
-                    if(moveDireita) p1.x++;
-                    if(moveCima) p1.y--;
-                    if(moveBaixo)p1.y++;
+                    if(moveEsquerda && p1.x > 0) p1.x--;
+                    if(moveDireita && p1.x < widght-100) p1.x++;
+                    if(moveCima && p1.y > 0) p1.y--;
+                    if(moveBaixo && p1.y < height-100) p1.y++;
                 }
 
                 function render(){
