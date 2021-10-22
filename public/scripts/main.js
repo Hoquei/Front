@@ -8,6 +8,24 @@ let Nameplayer1 = 'player 1';
 let Nameplayer2 = 'player 2';
 let counter = 3
 
+var Player = {
+	new: function (side, numHitter) {
+		return {
+			id: numHitter,
+			width: 50,
+			height: 200, 
+			x: side === 'left' ? 50 : maxRes - 200,
+			y: 250,
+			speed: 25,
+			score: 0,
+
+			centro: [50, 60],
+			meios: [[30, 50], [60, 70]],
+			pontas: [[0, 30], [70, 100]],
+		};
+	},
+}
+
 textModal('Bem vindo!', 'Esperando players', 'Para jogar conecte no /controller');
 
 socket.on("player_join", (nickName) => {
@@ -30,15 +48,33 @@ socket.on("player_join", (nickName) => {
         console.log('limite de players atingido');
     } 
 })
+box = document.getElementById('test');
 
-socket.on('player1move', (direction) => {
-    console.log(direction);
-})
+// TEST
+var cnv = document.querySelector("canvas");
+var ctx = cnv.getContext("2d");
+ctx.fillRect(10,20,50,80);
 
+var Game = {
+    initialize: function() {
+        this.player1 = Player.new.call(this, 'left', 1);
+        var speed = 10
+        socket.on('player1move', (direction) => {
+            
+            switch(direction){
+                case 'right':
+                    
+                    break;
+            }
+            console.log(direction);
+        })
+        
+        socket.on('player2move', (direction) => {
+            console.log(direction);
+        })
+    }
+}
 
-socket.on('player2move', (direction) => {
-    console.log(direction);
-})
 
 function textModal(bemVindo, waiting, play, player1) {
     bemVindo ? document.getElementById("BemVindo").innerHTML = bemVindo : document.getElementById("BemVindo").innerHTML = '';
