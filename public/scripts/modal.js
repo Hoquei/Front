@@ -16,8 +16,12 @@ export default function Modal(){
 
         if(!(player1 === "")){
             console.log(player1);
-            socket.emit('playerJoin', player1);
+            var isFull = socket.emit('playerJoin', player1);
+            console.log('oi' + isFull);
             close();
+            
+            if(isFull)
+                disableModal()
         }
         else{
             document.getElementById("Nname").placeholder = "É necessário digitar um nome!";
@@ -30,6 +34,16 @@ export default function Modal(){
     function close(){
         modalWrapper.classList.remove("active")
     }
+
+    function disableModal(){
+        console.log('entrou');
+        document.getElementById("modal").disabled = true;
+        var nodes = document.getElementById("modal").getElementsByTagName('*');
+        for(var i = 0; i < nodes.length; i++){
+            nodes[i].disabled = true;
+        }
+
+     }
 
     return {
         close,
