@@ -8,62 +8,74 @@ let Nameplayer1 = 'player 1';
 let Nameplayer2 = 'player 2';
 let counter = 3
 
-
-
-var Player = {
-	new: function (side, numHitter) {
-		return {
-			id: numHitter,
-			width: 50,
-			height: 200, 
-			x: side === 'left' ? 50 : maxRes - 200,
-			y: 250,
-			speed: 25,
-			score: 0,
-
-			centro: [50, 60],
-			meios: [[30, 50], [60, 70]],
-			pontas: [[0, 30], [70, 100]],
-		};
-	},
-}
 var Game = {
+
+    //Player 1 move commands
     player1move: function(direction) {
         console.log(typeof(direction));
         
         if (direction > 350 || direction < 10){
-            moveBaixo = false; moveCima = false; moveEsquerda = false; moveDireita = true;
+            moveBaixo1 = false; moveCima1 = false; moveEsquerda1 = false; moveDireita1 = true;
         } else if (direction < 100 && direction > 80){
-            moveBaixo = false; moveCima = true; moveEsquerda = false; moveDireita = false;
+            moveBaixo1 = false; moveCima1 = true; moveEsquerda1 = false; moveDireita1 = false;
         } else if (direction < 190 && direction > 170){
-            moveBaixo = false; moveCima = false; moveEsquerda = true; moveDireita = false;
+            moveBaixo1 = false; moveCima1 = false; moveEsquerda1 = true; moveDireita1 = false;
         }  else if (direction < 280 && direction > 250){
-            moveBaixo = true; moveCima = false; moveEsquerda = false; moveDireita = false;
+            moveBaixo1 = true; moveCima1 = false; moveEsquerda1 = false; moveDireita1 = false;
         }
         
         else if (direction > 10 && direction < 80 ){
-            moveBaixo = false; moveCima = true; moveEsquerda = false; moveDireita = true;
+            moveBaixo1 = false; moveCima1 = true; moveEsquerda1 = false; moveDireita1 = true;
         } else if (direction > 100 && direction < 170){
-        moveBaixo = false; moveCima = true; moveEsquerda = true; moveDireita = false;
+        moveBaixo1 = false; moveCima1 = true; moveEsquerda1 = true; moveDireita1 = false;
         } else if (direction > 190 && direction < 250){
-            moveBaixo = true; moveCima = false; moveEsquerda = true; moveDireita = false;
+            moveBaixo1 = true; moveCima1 = false; moveEsquerda1 = true; moveDireita1 = false;
         }  else if (direction > 280 && direction < 350){
-            moveBaixo = true; moveCima = false; moveEsquerda = false; moveDireita = true;
+            moveBaixo1 = true; moveCima1 = false; moveEsquerda1 = false; moveDireita1 = true;
         }
 
-        render();
+        renderPlayer1();
+    },
+
+    //Player 2 move commands
+    player2move: function(direction) {
+        console.log(typeof(direction));
+        
+        if (direction > 350 || direction < 10){
+            moveBaixo2 = false; moveCima2 = false; moveEsquerda2 = false; moveDireita2 = true;
+        } else if (direction < 100 && direction > 80){
+            moveBaixo2 = false; moveCima2 = true; moveEsquerda2 = false; moveDireita2 = false;
+        } else if (direction < 190 && direction > 170){
+            moveBaixo2 = false; moveCima2 = false; moveEsquerda2 = true; moveDireita2 = false;
+        }  else if (direction < 280 && direction > 250){
+            moveBaixo2 = true; moveCima2 = false; moveEsquerda2 = false; moveDireita2 = false;
+        }
+        
+        else if (direction > 10 && direction < 80 ){
+            moveBaixo2 = false; moveCima2 = true; moveEsquerda2 = false; moveDireita2 = true;
+        } else if (direction > 100 && direction < 170){
+        moveBaixo2 = false; moveCima2 = true; moveEsquerda2 = true; moveDireita2 = false;
+        } else if (direction > 190 && direction < 250){
+            moveBaixo2 = true; moveCima2 = false; moveEsquerda2 = true; moveDireita2 = false;
+        }  else if (direction > 280 && direction < 350){
+            moveBaixo2 = true; moveCima2 = false; moveEsquerda2 = false; moveDireita2 = true;
+        }
+
+        renderPlayer2();
     },
     player1ChangeDirection: function(direction){
        console.log(direction);
         
     },
-    player2move: function(direction) {
-        console.log(direction);
+
+    //Player 1 stop moving function.
+    player1stop: function() {
+        moveBaixo1 = moveCima1 = moveEsquerda1 = moveDireita1 = false;
     },
 
-    //Player stop moving function.
-    player1stop: function() {
-        moveBaixo = moveCima = moveEsquerda = moveDireita = false;
+    //Player 2 stop moving function.
+    player2stop: function() {
+        moveBaixo2 = moveCima2 = moveEsquerda2 = moveDireita2 = false;
     }
 }
 
@@ -101,14 +113,16 @@ socket.on('player2move', (direction) => {
     Game.player2move(direction);
 })
 
- //Player stop moving
+//Player 1 stop moving
 socket.on('player1stop', () => {
     console.log("stopped");
     Game.player1stop();
 })
-socket.on('player2stop', (direction) => {
-    console.log(direction);
-    Game.player2move(direction);
+
+//Player 2 stop moving
+socket.on('player2stop', () => {
+    console.log("stopped");
+    Game.player2stop();
 })
 
 function textModal(bemVindo, waiting, play, player1) {
@@ -141,37 +155,58 @@ function timer() {
     }, 1000);
 }
 
-// TEST
-
 var cnv = document.querySelector("canvas");
 var ctx = cnv.getContext("2d");
-ctx.fillRect(10,20,50,80);
-
-var widght = cnv.width;
-var height = cnv.height;
-var UP = 38, DOWN = 40, LEFT = 37, RIGHT = 39;
-var moveEsquerda = false, moveDireita = false, moveCima = false, moveBaixo = false;
 
 var p1 = {
     x: 10,
     y: 10
 };
 
-update();
-function move(){
-    if(moveEsquerda && p1.x > 0) p1.x--;
-    if(moveDireita && p1.x < widght-100) p1.x++;
-    if(moveCima && p1.y > 0) p1.y--;
-    if(moveBaixo && p1.y < height-100) p1.y++;
+var p2 = {
+    x: 100,
+    y: 10
+};
+var widght = cnv.width;
+var height = cnv.height;
+var moveEsquerda1 = false, moveDireita1 = false, moveCima1 = false, moveBaixo1 = false;
+var moveEsquerda2 = false, moveDireita2 = false, moveCima2 = false, moveBaixo2 = false;
+
+updatePlayer1();
+updatePlayer2();
+
+function movePlayer1(){
+    if(moveEsquerda1 && p1.x > 0) p1.x--;
+    if(moveDireita1 && p1.x < widght-100) p1.x++;
+    if(moveCima1 && p1.y > 0) p1.y--;
+    if(moveBaixo1 && p1.y < height-100) p1.y++;
 }
 
-function render(){
-    ctx.clearRect(0,0,cnv.width,cnv.height);
+function movePlayer2(){
+    if(moveEsquerda2 && p2.x > 0) p2.x--;
+    if(moveDireita2 && p2.x < widght-100) p2.x++;
+    if(moveCima2 && p2.y > 0) p2.y--;
+    if(moveBaixo2 && p2.y < height-100) p2.y++;
+}
+
+function renderPlayer1(){
+    //ctx.clearRect(0,0,cnv.width,cnv.height);
     ctx.fillRect(p1.x, p1.y, 50, 50)
 }
 
-function update(){
-    requestAnimationFrame(update, cnv);
-    move();
-    render();
+function renderPlayer2(){
+    //ctx.clearRect(0,0,cnv.width,cnv.height);
+    ctx.fillRect(p2.x, p2.y, 50, 50)
+}
+
+function updatePlayer1(){
+    requestAnimationFrame(updatePlayer1, cnv);
+    movePlayer1();
+    renderPlayer1();
+}
+
+function updatePlayer2(){
+    requestAnimationFrame(updatePlayer2, cnv);
+    movePlayer2();
+    renderPlayer2();
 }

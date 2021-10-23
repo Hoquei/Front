@@ -68,4 +68,3 @@ function stopMove(obj) {
         console.log('player não existente');
     }
 }
-
