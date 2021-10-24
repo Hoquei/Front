@@ -39,12 +39,27 @@ io.on('connection', (socket) => {
     })
     
     socket.on('disconnect', () => {
+        let message = '';
+        let winner = '';
+
         if(socket.id === player1.socket){
             console.log('tchau', player1.nickName);
+            
+            if(player2 != undefined){
+                message = 'Player ' + player1.nickName + ' se desconectou';
+                winner = 'Por WO, ' + player2.nickName;
+                io.emit('gameOver', {message, winner});
+            }
+                
             player1.nickName = '';
             player1.socket = '';
         } else if(socket.id === player2.socket){
             console.log('tchau', player2.nickName);
+
+            message = 'Player ' + player2.nickName + ' se desconectou';
+            winner = 'Por WO, ' + player1.nickName;
+            io.emit('gameOver', {message, winner});
+
             player2.nickName = '';
             player2.socket = '';
         } else {
