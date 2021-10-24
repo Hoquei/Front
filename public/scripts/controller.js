@@ -15,11 +15,17 @@ var options = {
 
 
 var manager = nipplejs.create(options);
+
+manager.on('end', function(evt, nipple) {
+    console.log(nipple);
+    socket.emit('stopMove', {player: playerName});
+})
+
 manager.on('move', function(evt, nipple) {
     if(nipple.direction){
-        console.log(nipple.direction.x);
-        console.log(nipple.direction.y);
-        socket.emit('move', {direction: nipple.direction,
+        console.log(nipple);
+        // console.log(nipple.direction.y);
+        socket.emit('move', {direction: nipple.angle.degree,
                              player: playerName});
     }
 })

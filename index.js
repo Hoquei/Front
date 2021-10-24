@@ -34,6 +34,10 @@ io.on('connection', (socket) => {
     socket.on('move', (obj) => {
         sendMoves(obj);
     })
+    
+    socket.on('stopMove', (obj) => {
+        stopMove(obj);
+    });
 });
 
 function sendNames(nickName) {
@@ -52,6 +56,15 @@ function sendMoves(obj) {
     } else {
         console.log('player não existente');
     }
+}
 
+function stopMove(obj) {
 
+    if (obj.player === player1){
+        io.emit('player1stop', obj.direction);
+    } else if (obj.player === player2) {
+        io.emit('player2stop', obj.direction);
+    } else {
+        console.log('player não existente');
+    }
 }

@@ -24,6 +24,7 @@
 
 <body>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/scripts/main.js"></script>
     <script>
         var socket = io();
     </script>
@@ -44,10 +45,13 @@
                     </div>
                 </div>
             </div>
+
+            <canvas width="600" height="400"></canvas>
+
             <section id="table">
                 <div class="detail">
                     <div class="main-circle">
-                        <a class="inner-circle"></a>
+                        <a class="inner-circle" id="test"></a>
                     </div>
                     <div class="red-circles">
                         <a class="circle">
@@ -101,3 +105,4 @@
         </div>
     </div>
 </body>
+
