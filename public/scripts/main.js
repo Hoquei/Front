@@ -190,12 +190,12 @@ function movePlayer2(){
 }
 
 function renderPlayer1(){
-    //ctx.clearRect(0,0,cnv.width,cnv.height);
+    ctx.clearRect(0,0,cnv.width,cnv.height);
     ctx.fillRect(p1.x, p1.y, 50, 50)
 }
 
 function renderPlayer2(){
-    //ctx.clearRect(0,0,cnv.width,cnv.height);
+    ctx.clearRect(100,0,cnv.width,cnv.height);
     ctx.fillRect(p2.x, p2.y, 50, 50)
 }
 
