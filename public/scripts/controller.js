@@ -24,7 +24,6 @@ var options = {
 };
 
 socket.on('player_limit', () => {
-    playerName = 'limite atingido, tente novamente mais tarde';
     console.log('limite de players', player.name);
 }) 
 

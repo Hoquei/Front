@@ -45,11 +45,13 @@ io.on('connection', (socket) => {
         if(socket.id === player1.socket){
             console.log('tchau', player1.nickName);
             
-            if(player2 != undefined){
+            if(player2.nickName != ''){
                 message = 'Player ' + player1.nickName + ' se desconectou';
                 winner = 'Por WO, ' + player2.nickName;
                 io.emit('gameOver', {message, winner});
             }
+            else
+                io.emit('firstModal');
                 
             player1.nickName = '';
             player1.socket = '';

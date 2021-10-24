@@ -161,6 +161,10 @@ socket.on('gameOver', (message) =>{
     gameOver(message.message, message.winner);
 })
 
+socket.on('firstModal', () =>{
+    textModal('Bem vindo!', 'Esperando players', 'Para jogar conecte no /controller');
+})
+
 function gameOver(message, winner){
     modal.open();
     textModal('FIM DE JOGO!', message, (winner + ' venceu!'));
