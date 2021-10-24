@@ -6,6 +6,9 @@ const socket = io();
 
 let Nameplayer1 = 'player 1';
 let Nameplayer2 = 'player 2';
+let scorePlayer1 = 1;
+let scorePlayer2 = 0;
+
 let counter = 3
 
 var Game = {
@@ -81,27 +84,27 @@ var Game = {
 
 
 textModal('Bem vindo!', 'Esperando players', 'Para jogar conecte no /controller');
+atualizarPlacar();
 
-socket.on("player_join", (nickName) => {
-    if(Nameplayer1 === 'player 1') {
-        Nameplayer1 = nickName;
-        document.getElementById("player1").innerHTML = Nameplayer1; 
-        document.getElementById("playerWaiting").innerHTML = 'Player 1 já conectou'; 
-    } else if(Nameplayer2 === 'player 2'){
-        Nameplayer2 = nickName;
-        document.getElementById("player2").innerHTML = Nameplayer2;
-        setInterval(() => {
-            if(counter <= 0) {
-                clearInterval();
-                modal.close() 
-            }
-            textModal('Prepare-se',counter--)
-        }, 1000);
-        timer();
-    } else {
-        console.log('limite de players atingido');
-    } 
+socket.on('player1join', (player) => {
+    Nameplayer1 = player.nickName;
+    document.getElementById("player1").innerHTML = Nameplayer1; 
+    document.getElementById("playerWaiting").innerHTML = 'Player 1 já conectou'; 
 })
+
+socket.on('player2join', (player) => {
+    Nameplayer2 = player.nickName;
+    document.getElementById("player2").innerHTML = Nameplayer2;
+    var waitGame = setInterval(() => {
+        if(counter <= 0) {
+            modal.close();
+            clearInterval(waitGame);
+            timer();
+        }
+        textModal('Prepare-se',counter--)
+    }, 1000);
+})
+
 
 //Player move
 socket.on('player1move', (direction) => {
@@ -134,7 +137,7 @@ function textModal(bemVindo, waiting, play, player1) {
 
 function timer() {
     var minutes = 3
-    var seconds = 3
+    var seconds = 0
     var timerdisplay = document.getElementById('timer-display')
     var timer = setInterval(() => {
         timerdisplay.innerHTML = (seconds >= 10) ? minutes + ":" + seconds : minutes + ":0" + seconds
@@ -143,8 +146,7 @@ function timer() {
         }
         if (seconds <= 0 && minutes == 0) {
             console.log('terminou o timer');
-            modal.open();
-            textModal('FIM!');
+            gameOver('O tempo acabou!', scorePlayer1 > scorePlayer2 ? Nameplayer1 : (scorePlayer1 < scorePlayer2 ? Nameplayer2 : 'Ninguém'));
             clearInterval(timer);
         }
         if(seconds == 0) {
@@ -153,6 +155,24 @@ function timer() {
         }
         seconds--;
     }, 1000);
+}
+
+socket.on('gameOver', (message) =>{
+    gameOver(message.message, message.winner);
+})
+
+socket.on('firstModal', () =>{
+    textModal('Bem vindo!', 'Esperando players', 'Para jogar conecte no /controller');
+})
+
+function gameOver(message, winner){
+    modal.open();
+    textModal('FIM DE JOGO!', message, (winner + ' venceu!'));
+}
+
+function atualizarPlacar(){
+    document.getElementById("scorePlayer1").innerHTML = scorePlayer1
+    document.getElementById("scorePlayer2").innerHTML = scorePlayer2
 }
 
 var cnv = document.querySelector("canvas");

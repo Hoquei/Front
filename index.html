@@ -25,23 +25,20 @@
 <body>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/scripts/main.js"></script>
-    <script>
-        var socket = io();
-    </script>
     <div id="index" class="content">
         <main>
             <div class ="content-wrapper">
                 <div class="timer">
-                    <h1 id="timer-display">0:00</h1>
+                    <h1 id="timer-display">3:00</h1>
                 </div>
                 <div class="score-board">
                     <div class="player">
                         <h1 id=player1></h2>
-                        <div class ="score"> 0 </div>
+                        <div class ="score" id="scorePlayer1"> </div>
                     </div>
                     <div class="player">
                         <h1 id=player2></h2>
-                        <div class ="score"> 0 </div>
+                        <div class ="score" id="scorePlayer2"> </div>
                     </div>
                 </div>
             </div>

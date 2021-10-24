@@ -1,6 +1,6 @@
 export default function Modal(){
     
-    const modalWrapper = document.querySelector('.modal-wrapper')
+    let modalWrapper = document.querySelector('.modal-wrapper')
     const button = document.querySelector('.button')
     
     modalWrapper.classList.add("active")
@@ -24,7 +24,7 @@ export default function Modal(){
         }
     }
     function nome () {
-        return document.getElementById("Nname").value;
+        return {name: document.getElementById("Nname").value, socketId: socket.id};
     }
 
     function close(){
