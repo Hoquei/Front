@@ -1,6 +1,6 @@
 export default function Modal(){
     
-    const modalWrapper = document.querySelector('.modal-wrapper')
+    let modalWrapper = document.querySelector('.modal-wrapper')
     const button = document.querySelector('.button')
     
     modalWrapper.classList.add("active")
@@ -16,34 +16,20 @@ export default function Modal(){
 
         if(!(player1 === "")){
             console.log(player1);
-            var isFull = socket.emit('playerJoin', player1);
-            console.log('oi' + isFull);
+            socket.emit('playerJoin', player1);
             close();
-            
-            if(isFull)
-                disableModal()
         }
         else{
             document.getElementById("Nname").placeholder = "É necessário digitar um nome!";
         }
     }
     function nome () {
-        return document.getElementById("Nname").value;
+        return {name: document.getElementById("Nname").value, socketId: socket.id};
     }
 
     function close(){
         modalWrapper.classList.remove("active")
     }
-
-    function disableModal(){
-        console.log('entrou');
-        document.getElementById("modal").disabled = true;
-        var nodes = document.getElementById("modal").getElementsByTagName('*');
-        for(var i = 0; i < nodes.length; i++){
-            nodes[i].disabled = true;
-        }
-
-     }
 
     return {
         close,

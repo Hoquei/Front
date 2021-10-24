@@ -82,13 +82,14 @@ var Game = {
 
 textModal('Bem vindo!', 'Esperando players', 'Para jogar conecte no /controller');
 
-socket.on("player_join", (nickName) => {
-    if(Nameplayer1 === 'player 1') {
-        Nameplayer1 = nickName;
-        document.getElementById("player1").innerHTML = Nameplayer1; 
-        document.getElementById("playerWaiting").innerHTML = 'Player 1 já conectou'; 
-    } else if(Nameplayer2 === 'player 2'){
-        Nameplayer2 = nickName;
+socket.on('player1join', (player) => {
+    Nameplayer1 = player.nickName;
+    document.getElementById("player1").innerHTML = Nameplayer1; 
+    document.getElementById("playerWaiting").innerHTML = 'Player 1 já conectou'; 
+})
+
+socket.on('player2join', (player) => {
+    Nameplayer2 = player.nickName;
         document.getElementById("player2").innerHTML = Nameplayer2;
         setInterval(() => {
             if(counter <= 0) {
@@ -98,10 +99,8 @@ socket.on("player_join", (nickName) => {
             textModal('Prepare-se',counter--)
         }, 1000);
         timer();
-    } else {
-        console.log('limite de players atingido');
-    } 
 })
+
 
 //Player move
 socket.on('player1move', (direction) => {
