@@ -149,6 +149,9 @@ button.outlined,
 }
 
 /* TABLE */
+#canvas {
+  position: absolute;
+}
 #table,
 .detail {
   width: 150rem;

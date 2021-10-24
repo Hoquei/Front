@@ -6,7 +6,7 @@ const socket = io();
 
 let Nameplayer1 = 'player 1';
 let Nameplayer2 = 'player 2';
-let scorePlayer1 = 1;
+let scorePlayer1 = 0;
 let scorePlayer2 = 0;
 
 let counter = 3
@@ -179,13 +179,13 @@ var cnv = document.querySelector("canvas");
 var ctx = cnv.getContext("2d");
 
 var p1 = {
-    x: 10,
-    y: 10
+    x: 300,
+    y: 300
 };
 
 var p2 = {
-    x: 100,
-    y: 10
+    x: 1200,
+    y: 300
 };
 var widght = cnv.width;
 var height = cnv.height;
@@ -196,17 +196,17 @@ updatePlayer1();
 updatePlayer2();
 
 function movePlayer1(){
-    if(moveEsquerda1 && p1.x > 0) p1.x--;
-    if(moveDireita1 && p1.x < widght-100) p1.x++;
-    if(moveCima1 && p1.y > 0) p1.y--;
-    if(moveBaixo1 && p1.y < height-100) p1.y++;
+    if(moveEsquerda1 && p1.x > 0) p1.x = p1.x - 10;
+    if(moveDireita1 && p1.x < widght) p1.x =  p1.x + 10;
+    if(moveCima1 && p1.y > 0) p1.y =  p1.y - 10;
+    if(moveBaixo1 && p1.y < height) p1.y =  p1.y + 10;
 }
 
 function movePlayer2(){
     if(moveEsquerda2 && p2.x > 0) p2.x--;
-    if(moveDireita2 && p2.x < widght-100) p2.x++;
+    if(moveDireita2 && p2.x < widght) p2.x++;
     if(moveCima2 && p2.y > 0) p2.y--;
-    if(moveBaixo2 && p2.y < height-100) p2.y++;
+    if(moveBaixo2 && p2.y < height) p2.y++;
 }
 
 function renderPlayer1(){
@@ -215,8 +215,8 @@ function renderPlayer1(){
 }
 
 function renderPlayer2(){
-    ctx.clearRect(100,0,cnv.width,cnv.height);
-    ctx.fillRect(p2.x, p2.y, 50, 50)
+    ctx.clearRect(750,0,cnv.width,cnv.height);
+    ctx.fillRect(p2.x, p2.y, 50, 50);
 }
 
 function updatePlayer1(){
