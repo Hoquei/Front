@@ -38,6 +38,7 @@ export default function Modal(){
     }
 }
 
+// Function to load the modal.
 export function ModalLoading(){
     
     const modalWrapper = document.querySelector('.modal-wrapper')

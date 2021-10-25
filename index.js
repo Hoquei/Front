@@ -3,6 +3,12 @@ const app = express()
 var http = require('http').createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(http);
+let countplayer = 0;
+
+app.use(express.static(__dirname+'/public/scripts'))
+app.use(express.static(__dirname + '/public'));
+
+// Initialize modal of the player
 let player1 = {
     nickName: string = '',
     socket: string = []
@@ -11,10 +17,7 @@ let player2 = {
     nickName: string = '',
     socket: string = []
 };
-let countplayer = 0;
 
-app.use(express.static(__dirname+'/public/scripts'))
-app.use(express.static(__dirname + '/public'));
 http.listen(8080, () => {
     console.log('Listen on port 8080!')
 })
@@ -27,6 +30,7 @@ app.get('/controller', (req, res) => {
     res.sendFile(__dirname + "/controller.html");
 })
 
+// Socket that allows to control events when connected.
 io.on('connection', (socket) => {
 
     socket.on('playerJoin', (nickName) => {
@@ -38,6 +42,7 @@ io.on('connection', (socket) => {
         sendNames(player.name, player.socketId)
     })
     
+    // Socket to identify when a player disconnect from the game.
     socket.on('disconnect', () => {
         let message = '';
         let winner = '';
@@ -78,6 +83,7 @@ io.on('connection', (socket) => {
     });
 });
 
+// Function that send the names of the joined players.
 function sendNames(nickName, socketId) {
 
     if(player1.nickName === '' || player2.nickName === ''){
@@ -98,6 +104,7 @@ function sendNames(nickName, socketId) {
     }  
 }
 
+// Function that send the moves of a certain player.
 function sendMoves(obj) {
 
     if (obj.player === player1.nickName){
@@ -109,6 +116,7 @@ function sendMoves(obj) {
     }
 }
 
+// Function that send the stop move command of a certain player.
 function stopMove(obj) {
 
     if (obj.player === player1.nickName){
