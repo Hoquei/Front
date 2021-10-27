@@ -27,13 +27,14 @@ Nevertheless, if the match draws, the players will have a match point to decide 
 ### Running the project:
 After clone the repository...
 1. Open the terminal in the root directory and type ```npm install``` to install the dependencies above.
-2. Then open a new tab in browser and access the following address:  
+2. Then type ```node index``` in the terminal. 
+3. Open a new tab in browser and access the following address:  
 ```shell script 
 http://localhost:8080
 ```
-3. Open two tabs in browser and access the following address in each one:  
+4. Open two tabs in browser and access the following address in each one:  
 ```shell script 
 http://localhost:8080/controller?#
 ```
-4. READY ✨🎉
+5. READY ✨🎉
 ----------
