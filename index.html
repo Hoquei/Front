@@ -10,6 +10,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="/styles/global.css">
+    <link rel="stylesheet" href="/styles/index.css">
     <link rel="stylesheet" href="/styles/modal.css">
 
     <!-- FONTS -->
@@ -22,7 +23,7 @@
     <script src="/scripts/modal.js" defer type="module"></script>
 </head>
 
-<body>
+<body class="body">
     <script src="/socket.io/socket.io.js"></script>
     <script src="/scripts/main.js"></script>
     <div id="index" class="content">
@@ -97,9 +98,10 @@
     <div class="modal-wrapper">
         <div class="modal">
             <h2 id='BemVindo'></h2>
-            <p id='waiting'></p>
-            <p id='play'></p>
-            <p id='playerWaiting'></p>
+            <h3 id='waiting'></h3>
+            <h3 id='play'></h3>
+            <h3 id='playerWaiting'></h3>
+            <button class="screen">Adicionar tela</button>
         </div>
     </div>
 </body>

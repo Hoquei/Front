@@ -22,7 +22,7 @@ http.listen(8080, () => {
     console.log('Listen on port 8080!')
 })
 
-app.get('/', (req, res) => {
+app.get('/screen', (req, res) => {
     res.sendFile(__dirname + "/index.html");
 })
 

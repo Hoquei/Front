@@ -2,9 +2,13 @@ export default function Modal(){
     
     let modalWrapper = document.querySelector('.modal-wrapper')
     const button = document.querySelector('.button')
+    const screen = document.querySelector('.screen')
+
+    let body = document.querySelector('.body')
     
     modalWrapper.classList.add("active")
     button.addEventListener("click", getNickname)
+    screen.addEventListener("click", multiScreen)
 
     function open(){
         modalWrapper.classList.add("active")
@@ -29,6 +33,16 @@ export default function Modal(){
 
     function close(){
         modalWrapper.classList.remove("active")
+    }
+
+    function multiScreen() {
+        modalWrapper.classList.remove("active")
+        addScreen()
+    }
+ 
+    function addScreen() {
+        window.open("localhost:8080/screen/2")
+        body.classList.add("2")
     }
 
     return {
