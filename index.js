@@ -33,6 +33,10 @@ app.get('/controller', (req, res) => {
     res.sendFile(__dirname + "/controller.html");
 })
 
+// if not handle endpoint, redirect to controller page
+app.get('/*', (req, res) => {
+    res.redirect('/controller?#');
+})
 // Socket that allows to control events when connected.
 io.on('connection', (socket) => {
 
