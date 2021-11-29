@@ -14,7 +14,7 @@ var speed = 5;
 
 // Initialize the coordinates of the player on modal.
 var p1 = {
-    x: 300,
+    x: 150,
     y: 300
 };
 
@@ -22,6 +22,10 @@ var p2 = {
     x: 1200,
     y: 300
 };
+var puck = {
+    x: 300,
+    y: 300
+}
 
 // Player 1 direction variables.
 var moveEsquerda1 = false, moveDireita1 = false, moveCima1 = false, moveBaixo1 = false;
@@ -211,6 +215,7 @@ function atualizarPlacar(){
 }
 
 // Rendering the players on screen.
+updatePuck();
 updatePlayer1();
 updatePlayer2();
 
@@ -246,9 +251,12 @@ function renderPlayer1(){
 }
 
 function renderPlayer2(){
-    console.log(p2);
     ctx.clearRect(750,0,cnv.width,cnv.height);
     ctx.fillRect(p2.x, p2.y, 50, 50);
+}
+function renderPuck(){
+    ctx.clearRect(0,0,cnv.width,cnv.height);
+    ctx.fillRect(puck.x, puck.y, 50, 50);
 }
 
 // Function to update the new position of the player on screen.
@@ -262,4 +270,8 @@ function updatePlayer2(){
     requestAnimationFrame(updatePlayer2, cnv);
     movePlayer2();
     renderPlayer2();
+}
+function updatePuck(){
+    requestAnimationFrame(updatePuck, cnv);
+    renderPuck();
 }
