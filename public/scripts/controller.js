@@ -3,10 +3,13 @@ const modal = Modal();
 const socket = io();
 let player;
 
-// Socket to identify the confirmation of the player in the game.
+/**
+ * Socket to identify the confirmation of the player in the game.
+ */
 socket.on('confirmation', (arg) => {
     console.log('arg', arg);
     player = modal.nome();
+    // if the name and socket of the player are the same as the parameter, it sends confirmation
     if(player.name === arg.nickName && player.socketId === arg.socketId){
         document.getElementById('PlayerName').innerHTML = `Player name: ${player.name}`;
         socket.emit('receivedConfirmation', player);
@@ -20,7 +23,7 @@ socket.on("player_join", (arg) => {
     document.getElementById('PlayerName').innerHTML = `Player name: ${player.name}`; 
 })
 
-// Joystick.
+// define Joystick atributes.
 var options = {
     color: "green",
     zone: document.getElementById('zone_joystick'),
@@ -31,6 +34,7 @@ socket.on('player_limit', () => {
     console.log('limite de players', player.name);
 }) 
 
+// Create Nipplejs controller
 var manager = nipplejs.create(options);
 
 // Socket to identify when a player stops.
@@ -41,6 +45,7 @@ manager.on('end', function(evt, nipple) {
 
 // Socket to identify when a player moves.
 manager.on('move', function(evt, nipple) {
+    // if the nipple returns direction, emit the move
     if(nipple.direction){
         console.log(nipple);
         socket.emit('move', {direction: nipple.angle.degree,
