@@ -42,22 +42,30 @@ var Game = {
 
     // Player 1 move commands.
     player1move: function(direction) {
+        // if the direction is right
         if (direction > 350 || direction < 10){
             moveBaixo1 = false; moveCima1 = false; moveEsquerda1 = false; moveDireita1 = true;
+        // if the direction is up
         } else if (direction < 100 && direction > 80){
             moveBaixo1 = false; moveCima1 = true; moveEsquerda1 = false; moveDireita1 = false;
+        // if the direction is left
         } else if (direction < 190 && direction > 170){
             moveBaixo1 = false; moveCima1 = false; moveEsquerda1 = true; moveDireita1 = false;
+        // if the direction is down
         }  else if (direction < 280 && direction > 250){
             moveBaixo1 = true; moveCima1 = false; moveEsquerda1 = false; moveDireita1 = false;
         }
         
+        // if the direction is right-up diagonal
         else if (direction > 10 && direction < 80 ){
-            moveBaixo1 = false; moveCima1 = true; moveEsquerda1 = false; moveDireita1 = true;
+            moveBaixo1 = false; moveCima1 = true; moveEsquerda1 = false; moveDireita1 = true;   
+        // if the direction is left-up diagonal
         } else if (direction > 100 && direction < 170){
-        moveBaixo1 = false; moveCima1 = true; moveEsquerda1 = true; moveDireita1 = false;
+            moveBaixo1 = false; moveCima1 = true; moveEsquerda1 = true; moveDireita1 = false;
+        // if the direction is left-down diagonal
         } else if (direction > 190 && direction < 250){
             moveBaixo1 = true; moveCima1 = false; moveEsquerda1 = true; moveDireita1 = false;
+        // if the direction is right-down diagonal
         }  else if (direction > 280 && direction < 350){
             moveBaixo1 = true; moveCima1 = false; moveEsquerda1 = false; moveDireita1 = true;
         }
@@ -67,22 +75,30 @@ var Game = {
 
     // Player 2 move commands.
     player2move: function(direction) {
+            // if the direction is right
         if (direction > 350 || direction < 10){
             moveBaixo2 = false; moveCima2 = false; moveEsquerda2 = false; moveDireita2 = true;
+            // if the direction is up
         } else if (direction < 100 && direction > 80){
             moveBaixo2 = false; moveCima2 = true; moveEsquerda2 = false; moveDireita2 = false;
+            // if the direction is left
         } else if (direction < 190 && direction > 170){
             moveBaixo2 = false; moveCima2 = false; moveEsquerda2 = true; moveDireita2 = false;
+            // if the direction is down
         }  else if (direction < 280 && direction > 250){
             moveBaixo2 = true; moveCima2 = false; moveEsquerda2 = false; moveDireita2 = false;
         }
-        
+
+        // if the direction is right-up diagonal
         else if (direction > 10 && direction < 80 ){
             moveBaixo2 = false; moveCima2 = true; moveEsquerda2 = false; moveDireita2 = true;
+            // if the direction is left-up diagonal
         } else if (direction > 100 && direction < 170){
-        moveBaixo2 = false; moveCima2 = true; moveEsquerda2 = true; moveDireita2 = false;
+            moveBaixo2 = false; moveCima2 = true; moveEsquerda2 = true; moveDireita2 = false;
+            // if the direction is left-down diagonal
         } else if (direction > 190 && direction < 250){
             moveBaixo2 = true; moveCima2 = false; moveEsquerda2 = true; moveDireita2 = false;
+            // if the direction is right-down diagonal
         }  else if (direction > 280 && direction < 350){
             moveBaixo2 = true; moveCima2 = false; moveEsquerda2 = false; moveDireita2 = true;
         }
@@ -118,6 +134,7 @@ socket.on('player2join', (player) => {
     Nameplayer2 = player.nickName;
     document.getElementById("player2").innerHTML = Nameplayer2;
     var waitGame = setInterval(() => {
+        // if the counter get 0 close modal
         if(counter <= 0) {
             modal.close();
             clearInterval(waitGame);
@@ -163,14 +180,18 @@ function timer() {
     var timerdisplay = document.getElementById('timer-display')
     var timer = setInterval(() => {
         timerdisplay.innerHTML = (seconds >= 10) ? minutes + ":" + seconds : minutes + ":0" + seconds
+        
+        // if the time is less than a minute 
         if(minutes < 1){
             document.getElementById('timer-display').style.color = "red"
         }
+        // if the seconds and minutes are 0
         if (seconds <= 0 && minutes == 0) {
             console.log('terminou o timer');
             gameOver('O tempo acabou!', scorePlayer1 > scorePlayer2 ? Nameplayer1 : (scorePlayer1 < scorePlayer2 ? Nameplayer2 : 'Ninguém'));
             clearInterval(timer);
         }
+        //if the seconds is 0 recude minute
         if(seconds == 0) {
             seconds = 60
             minutes -=1
@@ -208,16 +229,24 @@ updatePlayer2();
 
 // Functions to move players according to the limits established by the field canvas.
 function movePlayer1(){
+    // move the player 1 left
     if(moveEsquerda1 && p1.x > 0) p1.x = p1.x - speed;
+    // move the player 1 right
     if(moveDireita1 && p1.x < 700) p1.x = p1.x + speed;
+    // move the player 1 up 
     if(moveCima1 && p1.y > 0) p1.y = p1.y - speed;
+    // move the player 1 down
     if(moveBaixo1 && p1.y < 595) p1.y = p1.y + speed;
 }
 
 function movePlayer2(){
+    // move the player 2 left
     if(moveEsquerda2 && p2.x > 751) p2.x = p2.x - speed;
+    // move the player 2 right
     if(moveDireita2 && p2.x < 1442) p2.x = p2.x + speed;
+    // move the player 2 up
     if(moveCima2 && p2.y > 0) p2.y = p2.y - speed;
+    // move the player 1 down
     if(moveBaixo2 && p2.y < 595) p2.y = p2.y + speed;
 }
 
