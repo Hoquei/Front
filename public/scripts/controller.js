@@ -2,7 +2,6 @@ import Modal from "./modal.js";
 const modal = Modal();
 const socket = io();
 let player;
-
 /**
  * Socket to identify the confirmation of the player in the game.
  */
@@ -16,26 +15,31 @@ socket.on('confirmation', (arg) => {
     }
 })
 
-// Socket to identify the joined player.
-socket.on("player_join", (arg) => {
-    player = modal.nome();
-    console.log('connection: ', player.socketId);
-    document.getElementById('PlayerName').innerHTML = `Player name: ${player.name}`; 
-})
+// // Socket to identify the joined player.
+// socket.on("player_join", (arg) => {
+//     player = modal.nome();
+//     document.getElementById('PlayerName').innerHTML = `Player name: ${player.name}`; 
+// })
 
 // define Joystick atributes.
 var options = {
     color: "green",
     zone: document.getElementById('zone_joystick'),
 };
-
-// Socket to identify when a third person try to connect into the game as a player.
-socket.on('player_limit', () => {
-    console.log('limite de players', player.name);
-}) 
-
 // Create Nipplejs controller
 var manager = nipplejs.create(options);
+
+// Socket to identify when a third person try to connect into the game as a player.
+socket.on('player_limit', (arg) => {
+    if(player.name === arg.nickName && player.socketId === arg.socketId ){
+        document.getElementById('PlayerName').innerHTML = `<div><h1> Partida já está completa</h1> <BR><BR>
+        Infelizmente todas as vagas foram preenchidas, espere até a proxima partida.</div>`;
+        manager.destroy()
+        console.log('limite de players', player.name);
+    }
+    
+}) 
+
 
 // Socket to identify when a player stops.
 manager.on('end', function(evt, nipple) {
