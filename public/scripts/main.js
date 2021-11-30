@@ -13,24 +13,19 @@ var ctx = cnv.getContext("2d");
 var speed = 5;
 
 // Initialize the coordinates of the player on modal.
-var Player = {
+var p1 = {
     x: 250,
-    y: 300,
-    height: 20,
-    widght: 20
+    y: 300
 };
 
 var p2 = {
     x: 1200,
-    y: 300,
-    height: 200,
-    widght: 200
+    y: 300
 };
+
 var puck = {
     x: 400,
-    y: 300,
-    height: 200,
-    widght: 200
+    y: 300
 }
 
 // Player 1 direction variables.
