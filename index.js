@@ -122,7 +122,7 @@ function sendNames(nickName, socketId) {
     else{
         console.log('limite de players atingido');
         // emit socket topic player_limit
-        io.emit('player_limit',);
+        io.emit('player_limit', {nickName, socketId});
     }  
 }
 
