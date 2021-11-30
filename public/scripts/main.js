@@ -13,18 +13,24 @@ var ctx = cnv.getContext("2d");
 var speed = 5;
 
 // Initialize the coordinates of the player on modal.
-var p1 = {
-    x: 150,
-    y: 300
+var Player = {
+    x: 250,
+    y: 300,
+    height: 20,
+    widght: 20
 };
 
 var p2 = {
     x: 1200,
-    y: 300
+    y: 300,
+    height: 200,
+    widght: 200
 };
 var puck = {
-    x: 300,
-    y: 300
+    x: 400,
+    y: 300,
+    height: 200,
+    widght: 200
 }
 
 // Player 1 direction variables.
@@ -55,6 +61,7 @@ var Game = {
         }  else if (direction > 280 && direction < 350){
             moveBaixo1 = true; moveCima1 = false; moveEsquerda1 = false; moveDireita1 = true;
         }
+        collision();
         renderPlayer1();
     },
 
@@ -79,6 +86,7 @@ var Game = {
         }  else if (direction > 280 && direction < 350){
             moveBaixo2 = true; moveCima2 = false; moveEsquerda2 = false; moveDireita2 = true;
         }
+        collision();
         renderPlayer2();
     },
     player1ChangeDirection: function(direction){
@@ -194,14 +202,14 @@ function atualizarPlacar(){
 }
 
 // Rendering the players on screen.
-updatePuck();
 updatePlayer1();
+updatePuck();
 updatePlayer2();
 
 // Functions to move players according to the limits established by the field canvas.
 function movePlayer1(){
     if(moveEsquerda1 && p1.x > 0) p1.x = p1.x - speed;
-    if(moveDireita1 && p1.x < 701) p1.x = p1.x + speed;
+    if(moveDireita1 && p1.x < 700) p1.x = p1.x + speed;
     if(moveCima1 && p1.y > 0) p1.y = p1.y - speed;
     if(moveBaixo1 && p1.y < 595) p1.y = p1.y + speed;
 }
@@ -225,8 +233,9 @@ function renderPlayer2(){
     ctx.clearRect(750,0,cnv.width,cnv.height);
     ctx.fillRect(p2.x, p2.y, 50, 50);
 }
+
 function renderPuck(){
-    ctx.clearRect(0,0,cnv.width,cnv.height);
+    ctx.clearRect(puck.x, puck.y,cnv.width,cnv.height);
     ctx.fillRect(puck.x, puck.y, 50, 50);
 }
 
@@ -242,7 +251,22 @@ function updatePlayer2(){
     movePlayer2();
     renderPlayer2();
 }
+
 function updatePuck(){
     requestAnimationFrame(updatePuck, cnv);
     renderPuck();
+}
+
+function collision(){
+
+    if((p1.x) == puck.x){
+        puck.x = puck.x + (speed + 10);
+    }
+    
+    if((p1.y) == puck.y){
+        puck.y = puck.y + (speed + 10);
+    }
+
+    updatePuck();
+
 }
