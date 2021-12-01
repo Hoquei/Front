@@ -10,23 +10,41 @@ let scorePlayer2 = 0;
 let counter = 3
 var cnv = document.querySelector("canvas");
 var ctx = cnv.getContext("2d");
-var speed = 5;
+var sprites = [];
 
 // Initialize the coordinates of the player on modal.
-var p1 = {
-    x: 250,
-    y: 300
-};
-
-var p2 = {
-    x: 1200,
-    y: 300
-};
-
-var puck = {
-    x: 400,
-    y: 300
+var Player = {
+    new: function(playerID, side, color){
+        return{
+            id: playerID,
+            widght: 50,
+            height: 50,
+            x: side === 'left'? 250 : 1200,
+            y: 300,
+            speed: 5,
+            color: color
+        };
+    },
 }
+
+var Puck = {
+    new: function(puckID){
+        return{
+            id: puckID,
+            x: 400,
+            y: 300,
+            color: "#000000"
+        };
+    },
+}
+
+var p1 = Player.new.call(this, 1, 'left', "#FF0101")
+var p2 = Player.new.call(this, 2,'right', "#01FF0A")
+var puck = Puck.new.call(this, 3);
+
+sprites.push(p1);
+sprites.push(p2);
+sprites.push(puck);
 
 // Player 1 direction variables.
 var moveEsquerda1 = false, moveDireita1 = false, moveCima1 = false, moveBaixo1 = false;
@@ -36,7 +54,7 @@ var moveEsquerda2 = false, moveDireita2 = false, moveCima2 = false, moveBaixo2 =
 var Game = {
 
     // Player 1 move commands.
-    player1move: function(direction) {
+    player1move: function(direction, force) {
         // if the direction is right
         if (direction > 350 || direction < 10){
             moveBaixo1 = false; moveCima1 = false; moveEsquerda1 = false; moveDireita1 = true;
@@ -64,12 +82,20 @@ var Game = {
         }  else if (direction > 280 && direction < 350){
             moveBaixo1 = true; moveCima1 = false; moveEsquerda1 = false; moveDireita1 = true;
         }
-        collision();
-        renderPlayer1();
+        console.log("força " + force);
+        if(force == 0){
+            p1.speed = 0;
+        } 
+        else if(force > 0 && force < 0.5) p1.speed = 0.5;
+        else if(force > 0.5 && force < 1) p1.speed = 1;
+        else if(force > 1 && force < 2) p1.speed = 1.5;
+        else if(force > 2 && force < 3) p1.speed = 2;
+        else if(force > 3 && force < 6) p1.speed = 4;
+    
     },
 
     // Player 2 move commands.
-    player2move: function(direction) {
+    player2move: function(direction, force) {
             // if the direction is right
         if (direction > 350 || direction < 10){
             moveBaixo2 = false; moveCima2 = false; moveEsquerda2 = false; moveDireita2 = true;
@@ -97,9 +123,9 @@ var Game = {
         }  else if (direction > 280 && direction < 350){
             moveBaixo2 = true; moveCima2 = false; moveEsquerda2 = false; moveDireita2 = true;
         }
-        collision();
-        renderPlayer2();
+        
     },
+
     player1ChangeDirection: function(direction){
        console.log(direction);
     },
@@ -110,7 +136,8 @@ var Game = {
     // Player 2 stop moving function.
     player2stop: function() {
         moveBaixo2 = moveCima2 = moveEsquerda2 = moveDireita2 = false;
-    }
+    },
+
 }
 
 // Rendering waiting players screen (principal screen: modal).
@@ -140,12 +167,13 @@ socket.on('player2join', (player) => {
 })
 
 // Player 1 move socket.
-socket.on('player1move', (direction) => {
-    Game.player1move(direction);
+socket.on('player1move', (direction, force) => {
+    console.log("força " + force);
+    Game.player1move(direction, force);
 })
 // Player 2 move socket.
-socket.on('player2move', (direction) => {
-    Game.player2move(direction);
+socket.on('player2move', (direction, force) => {
+    Game.player2move(direction, force);
 })
 
 // Player 1 stop moving.
@@ -217,80 +245,71 @@ function atualizarPlacar(){
     document.getElementById("scorePlayer2").innerHTML = scorePlayer2
 }
 
-// Rendering the players on screen.
-updatePlayer1();
-updatePuck();
-updatePlayer2();
-
 // Functions to move players according to the limits established by the field canvas.
 function movePlayer1(){
     // move the player 1 left
-    if(moveEsquerda1 && p1.x > 0) p1.x = p1.x - speed;
+    if(moveEsquerda1 && p1.x > 0) p1.x = p1.x - p1.speed;
     // move the player 1 right
-    if(moveDireita1 && p1.x < 700) p1.x = p1.x + speed;
+    if(moveDireita1 && p1.x < 700) p1.x = p1.x + p1.speed;
     // move the player 1 up 
-    if(moveCima1 && p1.y > 0) p1.y = p1.y - speed;
+    if(moveCima1 && p1.y > 0) p1.y = p1.y - p1.speed;
     // move the player 1 down
-    if(moveBaixo1 && p1.y < 595) p1.y = p1.y + speed;
+    if(moveBaixo1 && p1.y < 595) p1.y = p1.y + p1.speed;
 }
 
 function movePlayer2(){
     // move the player 2 left
-    if(moveEsquerda2 && p2.x > 751) p2.x = p2.x - speed;
+    if(moveEsquerda2 && p2.x > 751) p2.x = p2.x - p2.speed;
     // move the player 2 right
-    if(moveDireita2 && p2.x < 1442) p2.x = p2.x + speed;
+    if(moveDireita2 && p2.x < 1442) p2.x = p2.x + p2.speed;
     // move the player 2 up
-    if(moveCima2 && p2.y > 0) p2.y = p2.y - speed;
+    if(moveCima2 && p2.y > 0) p2.y = p2.y - p2.speed;
     // move the player 1 down
-    if(moveBaixo2 && p2.y < 595) p2.y = p2.y + speed;
-}
-
-/* Function that render the player object conforms it walk through the screen:
-   Erase the last position and render the new position on screen.
-*/
-function renderPlayer1(){
-    ctx.clearRect(0,0,cnv.width,cnv.height);
-    ctx.fillRect(p1.x, p1.y, 50, 50)
-}
-
-function renderPlayer2(){
-    ctx.clearRect(750,0,cnv.width,cnv.height);
-    ctx.fillRect(p2.x, p2.y, 50, 50);
-}
-
-function renderPuck(){
-    ctx.clearRect(puck.x, puck.y,cnv.width,cnv.height);
-    ctx.fillRect(puck.x, puck.y, 50, 50);
-}
-
-// Function to update the new position of the player on screen.
-function updatePlayer1(){
-    requestAnimationFrame(updatePlayer1, cnv);
-    movePlayer1();
-    renderPlayer1();
-}
-
-function updatePlayer2(){
-    requestAnimationFrame(updatePlayer2, cnv);
-    movePlayer2();
-    renderPlayer2();
-}
-
-function updatePuck(){
-    requestAnimationFrame(updatePuck, cnv);
-    renderPuck();
+    if(moveBaixo2 && p2.y < 595) p2.y = p2.y + p2.speed;
 }
 
 function collision(){
 
     if((p1.x) == puck.x){
-        puck.x = puck.x + (speed + 10);
+        puck.x = puck.x + (p1.speed + 10);
     }
     
     if((p1.y) == puck.y){
-        puck.y = puck.y + (speed + 10);
+        puck.y = puck.y + (p1.speed + 10);
     }
-
-    updatePuck();
-
 }
+
+function loop(){
+    window.requestAnimationFrame(loop, cnv);
+    update();
+    render();
+}
+
+// Function to update the new position of the player on screen.
+function update(){
+    movePlayer1();
+
+    movePlayer2();
+
+    collision();
+}
+
+/* Function that render the player object conforms it walk through the screen:
+   Erase the last position and render the new position on screen.
+*/
+function render(){
+    ctx.clearRect(0, 0, cnv.width, cnv.height);
+    var i = 0;
+    for(i; i < sprites.length; i++){
+        var spr = sprites[i];
+        if(spr.id != 3){
+            ctx.fillStyle = spr.color;
+            ctx.fillRect(spr.x, spr.y, spr.widght, spr.height);
+        }
+        else{
+            ctx.fillStyle = spr.color;
+            ctx.fillRect(spr.x, spr.y, 50, 50);
+        }
+    }
+}
+loop();

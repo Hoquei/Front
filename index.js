@@ -131,10 +131,10 @@ function sendMoves(obj) {
 
     // if player move is player 1, emit socket Player1move
     if (obj.player === player1.nickName){
-        io.emit('player1move', obj.direction);
+        io.emit('player1move', obj.direction, obj.force);
     // if player move is player 2, emit socket Player2move
     } else if (obj.player === player2.nickName) {
-        io.emit('player2move', obj.direction);
+        io.emit('player2move', obj.direction, obj.force);
     } else {
         console.log('player não existente');
     }
