@@ -40,7 +40,6 @@ socket.on('player_limit', (arg) => {
     
 }) 
 
-
 // Socket to identify when a player stops.
 manager.on('end', function(evt, nipple) {
     console.log(nipple);
@@ -53,6 +52,7 @@ manager.on('move', function(evt, nipple) {
     if(nipple.direction){
         console.log(nipple);
         socket.emit('move', {direction: nipple.angle.degree,
-                             player: player.name});
+                             player: player.name,
+                             force: nipple.force,});
     }
 })
