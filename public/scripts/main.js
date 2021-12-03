@@ -11,6 +11,7 @@ let counter = 3
 var cnv = document.querySelector("canvas");
 var ctx = cnv.getContext("2d");
 var sprites = [];
+var push = [];
 
 // Initialize the coordinates of the player on modal.
 var Player = {
@@ -33,6 +34,13 @@ var Puck = {
             id: puckID,
             x: 400,
             y: 300,
+            widght: 50,
+            height: 50,
+            speed: 0,
+            right: false,
+            left: false,
+            up: false,
+            down: false,
             color: "#000000"
         };
     },
@@ -45,6 +53,9 @@ var puck = Puck.new.call(this, 3);
 sprites.push(p1);
 sprites.push(p2);
 sprites.push(puck);
+
+push.push(p1);
+push.push(p2);
 
 // Player 1 direction variables.
 var moveEsquerda1 = false, moveDireita1 = false, moveCima1 = false, moveBaixo1 = false;
@@ -83,9 +94,9 @@ var Game = {
             moveBaixo1 = true; moveCima1 = false; moveEsquerda1 = false; moveDireita1 = true;
         }
         console.log("força " + force);
-        if(force == 0){
-            p1.speed = 0;
-        } 
+
+        // Change the hitter speed according to the force applied in the nipple.
+        if(force == 0)p1.speed = 0;
         else if(force > 0 && force < 0.5) p1.speed = 0.5;
         else if(force > 0.5 && force < 1) p1.speed = 1;
         else if(force > 1 && force < 2) p1.speed = 1.5;
@@ -123,6 +134,14 @@ var Game = {
         }  else if (direction > 280 && direction < 350){
             moveBaixo2 = true; moveCima2 = false; moveEsquerda2 = false; moveDireita2 = true;
         }
+
+        // Change the hitter speed according to the force applied in the nipple.
+        if(force == 0)p2.speed = 0;
+        else if(force > 0 && force < 0.5) p2.speed = 0.5;
+        else if(force > 0.5 && force < 1) p2.speed = 1;
+        else if(force > 1 && force < 2) p2.speed = 1.5;
+        else if(force > 2 && force < 3) p2.speed = 2;
+        else if(force > 3 && force < 6) p2.speed = 4;
         
     },
 
@@ -168,7 +187,6 @@ socket.on('player2join', (player) => {
 
 // Player 1 move socket.
 socket.on('player1move', (direction, force) => {
-    console.log("força " + force);
     Game.player1move(direction, force);
 })
 // Player 2 move socket.
@@ -264,23 +282,163 @@ function movePlayer2(){
     if(moveDireita2 && p2.x < 1442) p2.x = p2.x + p2.speed;
     // move the player 2 up
     if(moveCima2 && p2.y > 0) p2.y = p2.y - p2.speed;
-    // move the player 1 down
+    // move the player 2 down
     if(moveBaixo2 && p2.y < 595) p2.y = p2.y + p2.speed;
 }
 
-function collision(){
+function movePuck(){
+    // move the puck left
+    if(puck.left && puck.x > 0) puck.x = puck.x - puck.speed;
+    // move the puck right
+    if(puck.right && puck.x < 1442) puck.x = puck.x + puck.speed;
+    // move the puck up
+    if(puck.up && puck.y > 0) puck.y = puck.y - puck.speed;
+    // move the puck down
+    if(puck.down && puck.y < 595) puck.y = puck.y + puck.speed;
 
-    if((p1.x) == puck.x){
-        puck.x = puck.x + (p1.speed + 10);
+    puckHitWall();
+}
+
+// check if the puck hits a wall
+function puckHitWall(){
+    console.log(puck.y);
+    /* collision relate to right and left wall (X axis) */
+
+    // if puck hit the left wall without coming from a diagonal way, it'll be redirect for the right
+    if(puck.x < 1 && puck.left == true && puck.right == false && puck.up == false && puck.down == false){
+        puck.left = false;
+        puck.right = true;
+    }
+    // if puck hit the left wall coming from a left-up way, it'll be redirect for the right-up
+    else if(puck.x < 1 && puck.left == true && puck.right == false && puck.up == true && puck.down == false){
+        puck.left = false;
+        puck.right = true;
+    }
+    // if puck hit the left wall coming from a left-down way, it'll be redirect for the right-down
+    else if(puck.x < 1 && puck.left == true && puck.right == false && puck.up == false && puck.down == true){
+        puck.left = false;
+        puck.right = true;
+    }
+    // if puck hit the right wall without coming from a diagonal way, it'll be redirect for the left
+    else if(puck.x > 1441 && puck.left == false && puck.right == true && puck.up == false && puck.down == false){
+        puck.right = false;
+        puck.left = true;
+    }
+    // if puck hit the right wall coming from a right-up way, it'll be redirect for the left-up
+    else if(puck.x > 1441 && puck.left == false && puck.right == true && puck.up == true && puck.down == false){
+        puck.right = false;
+        puck.left = true;
+    }
+    // if puck hit the right wall coming from a right-down way, it'll be redirect for the left-down
+    else if(puck.x > 1441 && puck.left == false && puck.right == true && puck.up == false && puck.down == true){
+        puck.right = false;
+        puck.left = true;
+    }
+
+    /* collision relate to wall from above and below (Y axis) */
+
+    // if puck hit the upper wall without coming from a diagonal way, it'll be redirect for the down way
+    if(puck.y < 1 && puck.left == false && puck.right == false && puck.up == true && puck.down == false){
+        puck.up = false;
+        puck.down = true;
+    }
+    // if puck hit the upper wall coming from a right-up way, it'll be redirect for the right-down way
+    if(puck.y < 1 && puck.left == false && puck.right == true && puck.up == true && puck.down == false){
+        puck.up = false;
+        puck.down = true;
+    }
+    // if puck hit the upper wall coming from a left-up way, it'll be redirect for the left-down way
+    if(puck.y < 1 && puck.left == true && puck.right == false && puck.up == true && puck.down == false){
+        puck.up = false;
+        puck.down = true;
+    }
+    // if puck hit the lower wall without coming from a diagonal way, it'll be redirect for the up way
+    if(puck.y > 593 && puck.left == true && puck.right == false && puck.up == false && puck.down == true){
+        puck.down = false;
+        puck.up = true;
+    }
+    // if puck hit the lower wall coming from a right-down way, it'll be redirect for the right-up way
+    if(puck.y > 593 && puck.left == false && puck.right == true && puck.up == false && puck.down == true){
+        puck.down = false;
+        puck.up = true;
+    }
+    // if puck hit the lower wall coming from a left-down way, it'll be redirect for the left-up way
+    if(puck.y > 593 && puck.left == true && puck.right == false && puck.up == false && puck.down == true){
+        puck.down = false;
+        puck.up = true;
     }
     
-    if((p1.y) == puck.y){
-        puck.y = puck.y + (p1.speed + 10);
+}
+
+function collision(){
+    for(var i in push){
+        var player = push[i];
+        blockRect(puck, player);
+    }
+}
+
+// identify the collision
+function blockRect(object1, object2){
+    var catX = ((object1.x + (object1.widght/2)) - (object2.x + (object2.widght/2)));
+    var catY = ((object1.y + (object1.height/2)) - (object2.y + (object2.height/2)));
+    
+    //sum of halves
+    var sumHalfWidht = ((object1.widght/2) + (object2.widght/2));
+    var sumHalfHeight = ((object1.height/2) + (object2.height/2));
+    
+    //verify colission
+    if(Math.abs(catX) < sumHalfWidht && Math.abs(catY) < sumHalfHeight){
+        
+        var overlapX = sumHalfWidht - Math.abs(catX);
+        var overlapY = sumHalfHeight - Math.abs(catY);
+
+        //the collision was over or under the object
+        if(overlapX >= overlapY){
+            if(catY > 0){ //collision was over the object
+                if(object1.y < 595){
+                    object1.y += overlapY;
+                    puck.speed = 2;
+                    puck.up = false;
+                    puck.down = true;
+                } 
+                else object2.y -= overlapY; // object 1 stuck on the wall, then object2 shouldn't overlap it.
+            }
+            else{ //collision was under the object
+                if(object1.y > 0){
+                    object1.y -= overlapY;
+                    puck.speed = 2;
+                    puck.down = false;
+                    puck.up = true;
+                } 
+                else object2.y +=overlapY; // object 1 stuck on the wall, then object2 shouldn't overlap it.
+            }
+        }
+        else{ //the collision was to the left or right of the object
+            if(catX > 0){ //collision was to the left of the object
+                if(object1.x < 1442){
+                    object1.x += overlapX;
+                    puck.speed = 2;
+                    puck.left = false;
+                    puck.right = true;
+                } 
+                else object2.x -= overlapX; // object 1 stuck on the wall, then object2 shouldn't overlap it.
+            }
+            else{ //collision was to the right of the object
+                if(object1.x > 0){
+                    object1.x -= overlapX;
+                    puck.speed = 2;
+                    puck.right = false;
+                    puck.left = true;
+                } 
+                else object2.x += overlapX // object 1 stuck on the wall, then object2 shouldn't overlap it.
+            }
+        }
     }
 }
 
 function loop(){
     window.requestAnimationFrame(loop, cnv);
+    movePuck()
     update();
     render();
 }
@@ -288,9 +446,7 @@ function loop(){
 // Function to update the new position of the player on screen.
 function update(){
     movePlayer1();
-
     movePlayer2();
-
     collision();
 }
 
@@ -299,17 +455,10 @@ function update(){
 */
 function render(){
     ctx.clearRect(0, 0, cnv.width, cnv.height);
-    var i = 0;
-    for(i; i < sprites.length; i++){
+    for(var i in sprites){
         var spr = sprites[i];
-        if(spr.id != 3){
-            ctx.fillStyle = spr.color;
-            ctx.fillRect(spr.x, spr.y, spr.widght, spr.height);
-        }
-        else{
-            ctx.fillStyle = spr.color;
-            ctx.fillRect(spr.x, spr.y, 50, 50);
-        }
+        ctx.fillStyle = spr.color;
+        ctx.fillRect(spr.x, spr.y, spr.widght, spr.height);
     }
 }
 loop();
