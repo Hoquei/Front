@@ -297,14 +297,50 @@ function movePuck(){
     if(puck.down && puck.y < 595) puck.y = puck.y + puck.speed;
 
     puckHitWall();
+    goal();
 }
 
+// identify when a player score
+function goal(){
+
+    // identify when the puck goes to player 1 goal, then player 2 score one point
+    if(puck.x == 134 && puck.y > 186.5 && puck.y < 411){
+        scorePlayer2++;
+        atualizarPlacar();
+        reset();
+    }
+
+    // identify when the puck goes to player 2 goal, then player 1 score one point
+    if(puck.x == 1306.5 && puck.y > 186.5 && puck.y < 411){
+        scorePlayer1++;
+        atualizarPlacar();
+        reset();
+    }
+}
+
+// reset the games sprites in the field when a score is made
+function reset(){
+    p1.x= 250;
+    p1.y= 300;
+
+    p2.x = 1200;
+    p2.y = 300;
+
+    puck.x = 400;
+    puck.y = 300;
+
+    puck.speed = 0;
+    puck.right = false;
+    puck.left = false;
+    puck.up = false;
+    puck.down = false;
+}
 // check if the puck hits a wall
 function puckHitWall(){
-    console.log(puck.y);
+
     /* collision relate to right and left wall (X axis) */
 
-    // if puck hit the left wall without coming from a diagonal way, it'll be redirect for the right
+    // if puck hit the left wall without coming from a diagonal way  it'll be redirect for the right
     if(puck.x < 1 && puck.left == true && puck.right == false && puck.up == false && puck.down == false){
         puck.left = false;
         puck.right = true;
@@ -438,7 +474,7 @@ function blockRect(object1, object2){
 
 function loop(){
     window.requestAnimationFrame(loop, cnv);
-    movePuck()
+    movePuck();
     update();
     render();
 }
